@@ -1,0 +1,8 @@
+name: yet-another-flutter-crypto-tracker
+
+packages:
+  - packages/**
+
+command:
+  version:
+    workspaceChangelog: true
