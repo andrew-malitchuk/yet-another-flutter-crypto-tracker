@@ -1,0 +1,11 @@
+name: common_logger
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  logger: ^2.5.0
