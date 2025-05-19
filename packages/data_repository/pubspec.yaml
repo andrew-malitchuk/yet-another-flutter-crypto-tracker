@@ -1,0 +1,22 @@
+name: data_repository
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  common_core:
+    path: ../common_core
+  domain_repository:
+    path: ../domain_repository
+  data_network:
+    path: ../data_network
+  data_database:
+    path: ../data_database
+  data_preference:
+    path: ../data_preference
+  result_dart: ^2.1.0
+  provider: ^6.1.1
