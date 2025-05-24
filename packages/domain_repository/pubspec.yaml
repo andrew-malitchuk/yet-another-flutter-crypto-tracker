@@ -1,0 +1,14 @@
+name: domain_repository
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  common_core:
+    path: ../common_core
+  result_dart: ^2.1.0
+
