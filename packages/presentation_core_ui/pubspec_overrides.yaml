@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: presentation_core_styling
+dependency_overrides:
+  presentation_core_styling:
+    path: ../presentation_core_styling
