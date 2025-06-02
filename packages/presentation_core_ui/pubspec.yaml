@@ -1,0 +1,24 @@
+name: presentation_core_ui
+version: 0.0.1
+#  TODO: wtf
+publish_to: "none"
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.1.0
+  equatable: ^2.0.5
+  presentation_core_styling:
+    path: ../presentation_core_styling
+  easy_localization: ^3.0.7+1
+  shimmer: ^3.0.0
+
+flutter:
+  #  TODO: wtf
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/icon/
