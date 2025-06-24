@@ -441,4 +441,7 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+.melos_tool/
+
+*.env
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio,xcode,macos,linux,windows,web,android,flutter,kotlin,swift,java
