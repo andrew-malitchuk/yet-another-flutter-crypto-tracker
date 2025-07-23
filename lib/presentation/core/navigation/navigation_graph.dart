@@ -7,12 +7,6 @@ import 'package:presentation_feature_user_details/core/navigation/user_details_n
 import 'package:presentation_feature_user_profile/core/navigation/user_profile_navigation.dart';
 import 'package:presentation_feature_welcome/core/navigation/welcome_navigation.dart';
 
-// final navigationGraph = GoRouter(
-//   initialLocation: SplashRoute().location, // location getter is generated.
-//   //$appRoutes is generated
-//   routes: $appRoutes,
-// );
-
 final navigationGraph = GoRouter(
     initialLocation: SplashRoute().location, // location getter is generated.
     //$appRoutes is generated
