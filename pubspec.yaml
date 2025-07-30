@@ -16,8 +16,6 @@ dependencies:
   flutter:
     sdk: flutter
     
-  common_core:
-    path: packages/common_core
 
   common_logger:
     path: packages/common_logger
@@ -27,6 +25,9 @@ dependencies:
 
   presentation_core_ui:
     path: packages/presentation_core_ui
+
+  presentation_core_platform:
+    path: packages/presentation_core_platform
 
   data_network:
     path: packages/data_network
@@ -79,6 +80,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   provider: ^6.1.1
 
+  flutter_dotenv: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -93,7 +95,6 @@ dev_dependencies:
   build_runner: ^2.4.15
   go_router_builder: ^2.9.0
   melos: ^4.0.0
-  flutter_dotenv: ^5.2.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
