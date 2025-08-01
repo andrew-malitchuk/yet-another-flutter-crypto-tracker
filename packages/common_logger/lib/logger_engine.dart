@@ -1,11 +1,14 @@
-import 'package:logger/logger.dart';
+import 'package:talker/talker.dart';
 
-base class LoggerEngine{
-  static final Logger _logger =
-  Logger(printer: PrettyPrinter(), level: Level.debug);
-  static void debug(String message) => _logger.d(message);
-  static void info(String message) => _logger.i(message);
-  static void warning(String message) => _logger.w(message);
+base class LoggerEngine {
+  static final _talker = Talker();
+
+  static void debug(String message) => _talker.debug(message);
+
+  static void info(String message) => _talker.info(message);
+
+  static void warning(String message) => _talker.warning(message);
+
   static void error(String message, [dynamic error]) =>
-      _logger.e(message, error: error, stackTrace: StackTrace.current);
+      _talker.error(message, error, StackTrace.current);
 }

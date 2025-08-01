@@ -9,3 +9,4 @@ dependencies:
   flutter:
     sdk: flutter
   logger: ^2.5.0
+  talker: ^5.0.0
