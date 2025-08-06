@@ -13,12 +13,9 @@ dev_dependencies:
 dependencies:
   flutter:
     sdk: flutter
-  common_core:
-    path: ../common_core
   dio: ^5.2.0
   json_annotation: ^4.4.0
   flutter_dotenv: ^5.2.1
-  fancy_dio_inspector: ^1.7.0
   provider: ^6.1.1
   flutter_bloc: ^9.0.0
   result_dart: ^2.1.0
