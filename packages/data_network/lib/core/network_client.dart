@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:fancy_dio_inspector/fancy_dio_inspector.dart';
 
 import 'network_configuration.dart';
 
@@ -21,7 +20,6 @@ class NetworkClient {
 
   void _configureInterceptors() {
     _addInterceptor(LogInterceptor());
-    _addInterceptor(FancyDioInterceptor());
   }
 }
 
