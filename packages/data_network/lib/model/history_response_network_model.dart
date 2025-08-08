@@ -29,10 +29,8 @@ class HistoryResponseNetworkModel extends BaseNetworkModel {
     required this.date,
   });
 
-// todo wtf
   factory HistoryResponseNetworkModel.fromJson(Map<String, dynamic> json) =>
       _$HistoryResponseNetworkModelFromJson(json);
 
-// todo wtf
   Map<String, dynamic> toJson() => _$HistoryResponseNetworkModelToJson(this);
 }

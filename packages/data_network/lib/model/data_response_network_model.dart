@@ -41,7 +41,6 @@ part 'data_response_network_model.g.dart';
 ///   ]
 /// }
 /// ```
-// todo wtf
 @JsonSerializable(genericArgumentFactories: true)
 class DataResponseNetworkModel<T> {
   @JsonKey(name: 'timestamp')
@@ -51,14 +50,12 @@ class DataResponseNetworkModel<T> {
 
   DataResponseNetworkModel({required this.timestamp, required this.data});
 
-// todo wtf
   factory DataResponseNetworkModel.fromJson(
     Map<String, dynamic> json,
     T Function(Object? json) fromJsonT,
   ) =>
       _$DataResponseNetworkModelFromJson(json, fromJsonT);
 
-// todo wtf
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
       _$DataResponseNetworkModelToJson(this, toJsonT);
 }

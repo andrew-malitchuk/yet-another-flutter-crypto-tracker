@@ -43,7 +43,6 @@ part 'crypto_asset_network_model.g.dart';
 ///   ]
 /// }
 /// ```
-// todo wtf
 @JsonSerializable()
 class CryptoAssetNetworkModel extends BaseNetworkModel {
   @JsonKey(name: 'id')
@@ -89,10 +88,8 @@ class CryptoAssetNetworkModel extends BaseNetworkModel {
     required this.tokens,
   });
 
-// todo wtf
   factory CryptoAssetNetworkModel.fromJson(Map<String, dynamic> json) =>
       _$CryptoAssetNetworkModelFromJson(json);
 
-// todo wtf
   Map<String, dynamic> toJson() => _$CryptoAssetNetworkModelToJson(this);
 }
