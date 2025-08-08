@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 
 import '../core/network_client.dart';
