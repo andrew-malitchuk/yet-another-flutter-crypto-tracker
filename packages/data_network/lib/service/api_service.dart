@@ -1,10 +1,8 @@
 import 'package:data_network/core/network_route.dart';
 import 'package:data_network/model/history_response_network_model.dart';
-import 'package:dio/dio.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../core/network_client.dart';
-import '../core/network_configuration.dart';
 import '../core/network_param.dart';
 import '../model/crypto_asset_network_model.dart';
 import '../model/data_response_network_model.dart';
@@ -64,7 +62,7 @@ class ApiService extends BaseApiService {
   /// [interval] specifies the time interval for the history (e.g., daily, hourly).
   /// [start] and [end] define the date range for the history.
   /// Returns a [Result] containing a [DataResponseNetworkModel] with a [HistoryResponseNetworkModel].
-  Future<Result<DataResponseNetworkModel<HistoryResponseNetworkModel>>>
+  Future<Result<DataResponseNetworkModel<List<HistoryResponseNetworkModel>>>>
       getAssetHistory(
     String slug,
     String interval,
@@ -79,10 +77,13 @@ class ApiService extends BaseApiService {
         NetworkParam.start: start,
         NetworkParam.end: end,
       });
-      return DataResponseNetworkModel<HistoryResponseNetworkModel>.fromJson(
+      return DataResponseNetworkModel<
+          List<HistoryResponseNetworkModel>>.fromJson(
         response.data,
-        (json) =>
-            HistoryResponseNetworkModel.fromJson(json as Map<String, dynamic>),
+        (json) => (json as List)
+            .map((item) => HistoryResponseNetworkModel.fromJson(
+                item as Map<String, dynamic>))
+            .toList(),
       );
     });
   }
