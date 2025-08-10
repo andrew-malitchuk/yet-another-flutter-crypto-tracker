@@ -20,7 +20,7 @@ class ApiSource {
     return _apiService.getAsset(slug);
   }
 
-  Future<Result<DataResponseNetworkModel<HistoryResponseNetworkModel>>>
+  Future<Result<DataResponseNetworkModel<List<HistoryResponseNetworkModel>>>>
       getAssetHistory(
     String slug,
     String interval,
