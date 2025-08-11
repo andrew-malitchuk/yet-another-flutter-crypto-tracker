@@ -1,4 +1,3 @@
 # melos_managed_dependency_overrides: common_core
 dependency_overrides:
-  common_core:
-    path: ../common_core
+  
