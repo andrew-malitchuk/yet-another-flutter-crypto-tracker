@@ -8,8 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  common_core:
-    path: ../common_core
+  
   domain_repository:
     path: ../domain_repository
   data_network:
