@@ -1,3 +1,4 @@
+import 'package:data_database/model/crypto_asset_database_model.dart';
 import 'package:data_network/model/crypto_asset_network_model.dart';
 import 'package:domain_repository/entity/crypto_asset_entity.dart';
 
@@ -17,6 +18,48 @@ extension CryptoAssetNetworkMapper on CryptoAssetNetworkModel {
       vwap24Hr: double.parse(vwap24Hr ?? "0.0"),
       explorer: explorer ?? '',
       tokens: tokens ?? const {},
+      amount: 1.0,
+    );
+  }
+}
+
+extension CryptoAssetDatabaseMapper on CryptoAssetDatabaseModel {
+  CryptoAssetEntity toEntity() {
+    return CryptoAssetEntity(
+        id: id.toString(),
+        rank: rank ?? '',
+        symbol: symbol ?? '',
+        name: name ?? '',
+        supply: supply,
+        maxSupply: maxSupply,
+        marketCapUsd: marketCapUsd,
+        volumeUsd24Hr: volumeUsd24Hr,
+        priceUsd: priceUsd,
+        changePercent24Hr: changePercent24Hr,
+        vwap24Hr: vwap24Hr,
+        explorer: explorer,
+        tokens: tokens,
+        amount: amount);
+  }
+}
+
+extension CryptoAssetDatabaseEntityMapper on CryptoAssetEntity {
+  CryptoAssetDatabaseModel toModel() {
+    return CryptoAssetDatabaseModel(
+      id: int.tryParse(id) ?? -1,
+      rank: rank ?? '',
+      symbol: symbol ?? '',
+      name: name ?? '',
+      supply: supply,
+      maxSupply: maxSupply,
+      marketCapUsd: marketCapUsd,
+      volumeUsd24Hr: volumeUsd24Hr,
+      priceUsd: priceUsd,
+      changePercent24Hr: changePercent24Hr,
+      vwap24Hr: vwap24Hr,
+      explorer: explorer,
+      tokens: tokens,
+      amount: amount ?? 1.0,
     );
   }
 }

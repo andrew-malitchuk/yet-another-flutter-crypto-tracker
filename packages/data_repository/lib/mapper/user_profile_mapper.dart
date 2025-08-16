@@ -1,12 +1,13 @@
 import 'package:data_preference/model/user_profile_prefernce_model.dart';
 import 'package:domain_repository/entity/user_profile_entity.dart';
 
-extension UserProfileEntityMapper on UserProfile {
+extension UserProfileEntityMapper on UserProfilePreferenceModel {
   UserProfileEntity toEntity() {
     return UserProfileEntity(
       firstName: firstName,
       secondName: secondName,
       email: email,
+      avatar: avatar,
       phone: phone,
       dateOfBirth: dateOfBirth,
     );
@@ -14,12 +15,13 @@ extension UserProfileEntityMapper on UserProfile {
 }
 
 extension UserProfileModelMapper on UserProfileEntity {
-  UserProfile toModel() {
-    return UserProfile(
+  UserProfilePreferenceModel toModel() {
+    return UserProfilePreferenceModel(
       firstName: firstName,
       secondName: secondName,
       email: email,
       phone: phone,
+      avatar: avatar,
       dateOfBirth: dateOfBirth,
     );
   }
