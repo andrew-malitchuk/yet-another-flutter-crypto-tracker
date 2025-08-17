@@ -8,7 +8,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  common_core:
-    path: ../common_core
+  
   result_dart: ^2.1.0
-
+  equatable: ^2.0.5
