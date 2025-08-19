@@ -5,4 +5,7 @@ class DataResponseEntity<T> extends BaseEntity {
   final T data;
 
   DataResponseEntity({required this.timestamp, required this.data});
+
+  @override
+  List<Object?> get props => [timestamp, data];
 }

@@ -10,4 +10,7 @@ class HistoryEntity extends BaseEntity {
     required this.time,
     required this.date,
   });
+
+  @override
+  List<Object?> get props => [priceUsd, time, date];
 }

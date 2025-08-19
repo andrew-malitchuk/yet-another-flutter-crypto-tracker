@@ -6,12 +6,14 @@ class UserProfileEntity extends BaseEntity {
   String email;
   String phone;
   int dateOfBirth;
+  String? avatar;
 
   UserProfileEntity({
     required this.firstName,
     required this.secondName,
     required this.email,
     required this.phone,
+    required this.avatar,
     required this.dateOfBirth,
   });
 
@@ -22,4 +24,8 @@ class UserProfileEntity extends BaseEntity {
         phone.isNotEmpty &&
         dateOfBirth > 0;
   }
+
+  @override
+  List<Object?> get props =>
+      [firstName, secondName, email, phone, dateOfBirth, avatar];
 }

@@ -14,6 +14,7 @@ class CryptoAssetEntity extends BaseEntity {
   final double vwap24Hr;
   final String explorer;
   final Map<String, List<String>> tokens;
+  final double? amount;
 
   CryptoAssetEntity({
     required this.id,
@@ -29,6 +30,59 @@ class CryptoAssetEntity extends BaseEntity {
     required this.vwap24Hr,
     required this.explorer,
     required this.tokens,
+    required this.amount,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        rank,
+        symbol,
+        name,
+        supply,
+        maxSupply,
+        marketCapUsd,
+        volumeUsd24Hr,
+        priceUsd,
+        changePercent24Hr,
+        vwap24Hr,
+        explorer,
+        tokens,
+        amount
+      ];
+
+CryptoAssetEntity copyWith({
+    String? id,
+    String? rank,
+    String? symbol,
+    String? name,
+    double? supply,
+    double? maxSupply,
+    double? marketCapUsd,
+    double? volumeUsd24Hr,
+    double? priceUsd,
+    double? changePercent24Hr,
+    double? vwap24Hr,
+    String? explorer,
+    Map<String, List<String>>? tokens,
+    double? amount,
+  }) {
+    return CryptoAssetEntity(
+      id: id ?? this.id,
+      rank: rank ?? this.rank,
+      symbol: symbol ?? this.symbol,
+      name: name ?? this.name,
+      supply: supply ?? this.supply,
+      maxSupply: maxSupply ?? this.maxSupply,
+      marketCapUsd: marketCapUsd ?? this.marketCapUsd,
+      volumeUsd24Hr: volumeUsd24Hr ?? this.volumeUsd24Hr,
+      priceUsd: priceUsd ?? this.priceUsd,
+      changePercent24Hr: changePercent24Hr ?? this.changePercent24Hr,
+      vwap24Hr: vwap24Hr ?? this.vwap24Hr,
+      explorer: explorer ?? this.explorer,
+      tokens: tokens ?? this.tokens,
+      amount: amount ?? this.amount,
+    );
+  }
 
 }
