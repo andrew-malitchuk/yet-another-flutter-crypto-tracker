@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../loader/loading_widget.dart';
-import '../loader/splash_loading_widget.dart';
 
 class LoadingItem extends StatelessWidget {
   const LoadingItem({super.key});

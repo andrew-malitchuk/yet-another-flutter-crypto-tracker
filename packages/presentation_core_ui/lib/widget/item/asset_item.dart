@@ -13,12 +13,14 @@ class AssetItem extends StatefulWidget {
   final String name;
   final String asset;
   final double price;
+  final double changePercent24Hr;
   final VoidCallback onClick;
 
   const AssetItem({
     required this.name,
     required this.asset,
     required this.price,
+    required this.changePercent24Hr,
     super.key,
     required this.onClick,
   });
@@ -103,19 +105,34 @@ class _AssetItemState extends State<AssetItem> {
                     ],
                   ),
                 ),
-                Align(
-                  heightFactor: 1.5,
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    textAlign: TextAlign.end,
-                    widget.price.toString(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodyHighlight01.copyWith(
-                      color: colorScheme.neutralN900,
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      textAlign: TextAlign.end,
+                      "\$${widget.price.toStringAsFixed(2)}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.bodyHighlight01.copyWith(
+                        color: colorScheme.neutralN900,
+                      ),
                     ),
                   ),
-                ),
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          "${widget.changePercent24Hr.toStringAsFixed(2)}%",
+                          style: textTheme.bodyMedium02.copyWith(
+                            color: widget.changePercent24Hr >= 0
+                                ? colorScheme.successN900
+                                : colorScheme.errorN900,
+                          )))
+                ]),
               ],
             ),
           ),
