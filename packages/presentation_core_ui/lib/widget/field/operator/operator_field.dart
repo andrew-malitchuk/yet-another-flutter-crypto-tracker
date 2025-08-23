@@ -34,6 +34,9 @@ class _OperatorFieldState extends State<OperatorField> {
 
     return Column(
       children: [
+
+
+
         DropdownButtonFormField2<String>(
           onMenuStateChange: (expanded) {
             // todo wtf
@@ -89,10 +92,10 @@ class _OperatorFieldState extends State<OperatorField> {
           onChanged: (value) {
             //Do something when selected item is changed.
             widget._value = value;
-            widget.onSaved?.call(value);
+            // widget.onSaved?.call(value);
           },
           onSaved: (value) {
-           // widget.onSaved?.call(value);
+           widget.onSaved?.call(value);
           },
           iconStyleData: IconStyleData(
               icon: SvgPicture.asset(

@@ -11,7 +11,8 @@ class SimpleField extends StatefulWidget {
   final String? suffixIcon;
   final ValueChanged<String>? onChanged;
   final String? regexPattern;
-
+  final TextInputType? keyboardType;
+  final TextEditingController? controller;
 
   const SimpleField(
       {super.key,
@@ -20,7 +21,9 @@ class SimpleField extends StatefulWidget {
       this.length,
       this.suffixIcon,
       this.regexPattern,
+      this.keyboardType,
       this.onChanged,
+      this.controller,
       });
 
   @override
@@ -65,8 +68,10 @@ class _SimpleFieldState extends State<SimpleField> {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: TextField(
+        controller: widget.controller,
         focusNode: _focusNode,
         maxLength: widget.length,
+        keyboardType: widget.keyboardType,
         decoration: InputDecoration(
           suffixIconConstraints: BoxConstraints(
             minWidth: 24,
