@@ -65,16 +65,26 @@ class _PortfolioHeaderState extends State<PortfolioHeader> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.welcome,
-                      style: textTheme.caption01.copyWith(
+                  if (widget.username != null &&
+                      widget.username?.isEmpty == false) ...[
+                    Text(widget.welcome,
+                        style: textTheme.caption01.copyWith(
+                          color: colorScheme.neutralN900,
+                        )),
+                    Text(
+                      widget.username ?? "",
+                      style: textTheme.subtitleHighlight01.copyWith(
                         color: colorScheme.neutralN900,
-                      )),
-                  Text(
-                    widget.username ?? "",
-                    style: textTheme.subtitleHighlight01.copyWith(
-                      color: colorScheme.neutralN900,
+                      ),
                     ),
-                  ),
+                  ] else ...[
+                    Text(
+                      widget.welcome,
+                      style: textTheme.subtitleHighlight01.copyWith(
+                        color: colorScheme.neutralN900,
+                      ),
+                    ),
+                  ]
                 ],
               ),
               Spacer(),
