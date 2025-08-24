@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:presentation_core_styling/color/custom_color_theme.dart';
-import 'package:presentation_core_styling/typography/custom_text_theme.dart';
 
 /// A widget that displays a splash loading animation with rotating icons and a title.
 ///
@@ -9,6 +7,8 @@ import 'package:presentation_core_styling/typography/custom_text_theme.dart';
 ///
 /// - [Figma](https://www.figma.com/design/KTysYAkUWAyTTryh4IWzjU/Android-School-App-UI?node-id=35-8362&t=1zhRazG0UwwrXlUU-4)
 class LoadingWidget extends StatefulWidget {
+  const LoadingWidget({super.key});
+
   @override
   State<StatefulWidget> createState() => _LoadingWidgetState();
 }

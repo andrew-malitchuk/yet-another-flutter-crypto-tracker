@@ -9,6 +9,8 @@ import 'package:presentation_core_styling/typography/custom_text_theme.dart';
 ///
 /// - [Figma](https://www.figma.com/design/KTysYAkUWAyTTryh4IWzjU/Android-School-App-UI?node-id=35-8362&t=1zhRazG0UwwrXlUU-4)
 class SplashLoadingWidget extends StatefulWidget {
+  const SplashLoadingWidget({super.key});
+
   @override
   State<StatefulWidget> createState() => _SplashLoadingWidgetState();
 }
