@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:presentation_core_styling/color/custom_color_theme.dart';
-import 'package:presentation_core_ui/widget/item/action_item.dart';
 import 'package:presentation_core_ui/widget/item/asset_item.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,7 +20,7 @@ class LoadingState extends StatelessWidget {
         itemBuilder: (context, index) {
           return Padding(
               padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: AssetItem(name: "", asset: "", price: 1.1, onClick: () {}));
+              child: AssetItem(name: "", asset: "", price: 1.1, onClick: () {}, changePercent24Hr: 0,));
         },
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:presentation_core_styling/color/custom_color_theme.dart';
 import 'package:presentation_core_styling/typography/custom_text_theme.dart';
 import 'package:presentation_core_ui/widget/button/primary/primary_button.dart';
