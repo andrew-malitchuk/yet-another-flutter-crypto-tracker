@@ -26,7 +26,6 @@ class AddNewCoinBloc extends Bloc<AddNewCoinEvent, AddNewCoinState> {
       final result = await cryptoRepository.getAssets(
           null,
           currentOffset,
-          // TODO: fix
           10);
 
       result.fold((success) {
@@ -49,7 +48,6 @@ class AddNewCoinBloc extends Bloc<AddNewCoinEvent, AddNewCoinState> {
       final result = await cryptoRepository.getAssets(
           (state as AddNewCoinLoadedState?)?.query,
           currentOffset,
-          // TODO: fix
           10);
 
       result.fold((success) {
@@ -81,6 +79,19 @@ class AddNewCoinBloc extends Bloc<AddNewCoinEvent, AddNewCoinState> {
         } else {
           emit(AddNewCoinLoadedState(data)..query = event.query);
         }
+      }, (failure) {
+        emit(AddNewCoinErrorState());
+      });
+    });
+    on<SaveNewCoinSearchEvent>((event, emit) async {
+      final result = await cryptoRepository.saveAsset(event.assetEntity);
+
+      final foo = await cryptoRepository.loadAssets();
+      foo.toString();
+
+      result.fold((success) {
+        emit(SuccessAddNewCoinEmptyState(
+            (state as AddNewCoinLoadedState?)?.data ?? []));
       }, (failure) {
         emit(AddNewCoinErrorState());
       });

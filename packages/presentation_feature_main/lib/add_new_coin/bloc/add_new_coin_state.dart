@@ -33,3 +33,14 @@ class AddNewCoinEmptyState extends AddNewCoinState {
   @override
   List<Object?> get props => [];
 }
+
+class SuccessAddNewCoinEmptyState extends AddNewCoinState {
+  String? query;
+
+  List<CryptoAssetEntity> data;
+
+  SuccessAddNewCoinEmptyState(this.data);
+
+  @override
+  List<Object?> get props => [data, query];
+}
