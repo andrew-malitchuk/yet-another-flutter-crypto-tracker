@@ -3,8 +3,9 @@ import 'package:domain_repository/entity/crypto_asset_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:presentation_core_styling/color/custom_color_theme.dart';
+import 'package:presentation_core_styling/typography/custom_text_theme.dart';
 import 'package:presentation_core_ui/layout/safe_scaffold.dart';
-import 'package:presentation_core_ui/layout/scrollable_column.dart';
 import 'package:presentation_core_ui/miscellaneous/util/custom_debounce.dart';
 import 'package:presentation_core_ui/widget/header/header_divider_controller.dart';
 import 'package:presentation_core_ui/widget/header/search_header.dart';
@@ -13,7 +14,6 @@ import 'package:presentation_core_ui/widget/item/loading_item.dart';
 import 'package:presentation_core_ui/widget/state/empty_state.dart';
 import 'package:presentation_core_ui/widget/state/error_state.dart';
 import 'package:presentation_core_ui/widget/state/loading_state.dart';
-import 'package:presentation_feature_detalization/core/navigation/detalization_navigation.dart';
 
 import '../dialog/add_dialog.dart';
 import '../dialog/sort_dialog.dart';
@@ -72,24 +72,47 @@ class _AddNewCoinViewState extends State<AddNewCoinView> with Logger {
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
-    return // TODO wtf
-        BlocBuilder<AddNewCoinBloc, AddNewCoinState>(
-      bloc: context.read<AddNewCoinBloc>(),
-      builder: (context, state) {
-        switch (state) {
-          case AddNewCoinInitialState():
-            return LoadingState();
-          case AddNewCoinLoadingState():
-            return LoadingState();
-          case AddNewCoinErrorState():
-            return ErrorState(onClick: null);
-          case AddNewCoinLoadedState():
-            return _buildContent(context, state.data);
-          case AddNewCoinEmptyState():
-            return EmptyState();
-        }
-      },
-    );
+    return BlocListener<AddNewCoinBloc, AddNewCoinState>(
+        listener: (context, state) {
+          if (state is SuccessAddNewCoinEmptyState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: colorScheme.errorN200,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4))),
+                showCloseIcon: true,
+                closeIconColor: colorScheme.neutralN900,
+                content: Text(
+                  "success",
+                  style: textTheme.bodyMedium02
+                      .copyWith(color: colorScheme.errorN900),
+                ),
+                behavior: SnackBarBehavior.floating,
+                margin: EdgeInsets.all(16),
+              ),
+            );
+          }
+        },
+        child:
+            BlocBuilder<AddNewCoinBloc, AddNewCoinState>(
+          bloc: context.read<AddNewCoinBloc>(),
+          builder: (context, state) {
+            switch (state) {
+              case AddNewCoinInitialState():
+                return LoadingState();
+              case AddNewCoinLoadingState():
+                return LoadingState();
+              case AddNewCoinErrorState():
+                return ErrorState(onClick: null);
+              case AddNewCoinLoadedState():
+                return _buildContent(context, state.data);
+              case SuccessAddNewCoinEmptyState():
+                return _buildContent(context, state.data);
+              default:
+                return EmptyState();
+            }
+          },
+        ));
   }
 
   Widget _buildContent(BuildContext context, List<CryptoAssetEntity> data) {
@@ -108,7 +131,14 @@ class _AddNewCoinViewState extends State<AddNewCoinView> with Logger {
             name: asset.name,
             asset: asset.symbol,
             price: asset.priceUsd,
-            onClick: () => DetalizationRoute(coin: asset.name).push(context),
+            changePercent24Hr: asset.changePercent24Hr,
+            onClick: () => {
+              showAddDialog(context, asset, (CryptoAssetEntity asset) {
+                context
+                    .read<AddNewCoinBloc>()
+                    .add(SaveNewCoinSearchEvent(asset));
+              }),
+            },
           ),
         );
       },
