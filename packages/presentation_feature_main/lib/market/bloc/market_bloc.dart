@@ -19,43 +19,94 @@ class MarketBloc extends Bloc<MarketEvent, MarketState> {
       emit(MarketLoadingState());
 
       // TODO remove this delay, it's just for demo purposes
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
       final result = await cryptoRepository.getAssets(
-          null,
-          currentOffset,
-          // TODO: fix
-          10);
+        null,
+        currentOffset,
+        10,
+      );
 
-      result.fold((success) {
-        data = success.data;
-        if (data.isEmpty) {
-          emit(MarketEmptyState());
-          return;
-        }
-        emit(MarketLoadedState(data));
-      }, (failure) {
-        emit(MarketErrorState());
-      });
+      await result.fold<Future<void>>(
+        (success) async {
+          if (emit.isDone) return;
+
+          data = success.data;
+          if (data.isEmpty) {
+            emit(MarketEmptyState());
+            return;
+          }
+          emit(MarketLoadedState(data));
+        },
+        (failure) async {
+          final fromDbResult = await cryptoRepository.loadOfflineAssets(
+            null,
+            currentOffset,
+            10,
+          );
+
+          if (emit.isDone) return;
+
+          data = fromDbResult.getOrNull() ?? [];
+          if (data.isEmpty) {
+            emit(MarketEmptyState());
+            return;
+          }
+          emit(MarketLoadedState(data));
+        },
+      );
     });
-    on<MarketLoadMoreEvent>((event, emit) async {
-      currentOffset += 10;
 
-      // TODO remove this delay, it's just for demo purposes
-      await Future.delayed(Duration(seconds: 2));
+    const pageSize = 10;
+
+    on<MarketLoadMoreEvent>((event, emit) async {
+      final nextOffset = currentOffset + pageSize;
+
+      await Future.delayed(const Duration(seconds: 2)); // demo delay
+
+      final loaded =
+          state is MarketLoadedState ? state as MarketLoadedState : null;
+      final query = loaded?.query;
 
       final result = await cryptoRepository.getAssets(
-          (state as MarketLoadedState?)?.query,
-          currentOffset,
-          // TODO: fix
-          10);
+        query,
+        nextOffset,
+        pageSize,
+      );
 
-      result.fold((success) {
-        data += success.data;
-        emit(MarketLoadedState(data));
-      }, (failure) {
-        emit(MarketErrorState());
-      });
+      await result.fold<Future<void>>(
+        (success) async {
+          if (emit.isDone) return;
+
+          final newItems = success.data;
+          if (newItems.isEmpty) {
+            return;
+          }
+
+          currentOffset = nextOffset;
+
+          data = [...data, ...newItems];
+          emit(MarketLoadedState(data));
+        },
+        (failure) async {
+          final fromDbResult = await cryptoRepository.loadOfflineAssets(
+            query,
+            nextOffset,
+            pageSize,
+          );
+
+          if (emit.isDone) return;
+
+          final offlineItems = fromDbResult.getOrNull() ?? [];
+          if (offlineItems.isEmpty) {
+            return;
+          }
+
+          currentOffset = nextOffset;
+          data = [...data, ...offlineItems];
+          emit(MarketLoadedState(data));
+        },
+      );
     });
     on<MarketSearchEvent>((event, emit) async {
       emit(MarketLoadingState());
@@ -68,7 +119,6 @@ class MarketBloc extends Bloc<MarketEvent, MarketState> {
       final result = await cryptoRepository.getAssets(
           event.query,
           currentOffset,
-          // TODO: fix
           10);
 
       result.fold((success) {
@@ -79,8 +129,18 @@ class MarketBloc extends Bloc<MarketEvent, MarketState> {
         } else {
           emit(MarketLoadedState(data)..query = event.query);
         }
-      }, (failure) {
-        emit(MarketErrorState());
+      }, (failure) async {
+        final fromDbResult = await cryptoRepository.loadOfflineAssets(
+            event.query,
+            currentOffset,
+            10);
+        data = fromDbResult.getOrNull() ?? [];
+        if (data.isEmpty) {
+          emit(MarketEmptyState());
+          return;
+        } else {
+          emit(MarketLoadedState(data)..query = event.query);
+        }
       });
     });
   }
