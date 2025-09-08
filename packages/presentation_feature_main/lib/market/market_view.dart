@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:common_logger/logger.dart';
 import 'package:domain_repository/entity/crypto_asset_entity.dart';
@@ -6,9 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:presentation_core_ui/layout/safe_scaffold.dart';
-import 'package:presentation_core_ui/layout/scrollable_column.dart';
 import 'package:presentation_core_ui/miscellaneous/util/custom_debounce.dart';
-import 'package:presentation_core_ui/widget/button/miscellaneous/sort_button.dart';
 import 'package:presentation_core_ui/widget/header/header_divider_controller.dart';
 import 'package:presentation_core_ui/widget/header/search_header.dart';
 import 'package:presentation_core_ui/widget/item/asset_item.dart';
@@ -110,6 +107,7 @@ class _MarketViewState extends State<MarketView> with Logger {
             name: asset.name,
             asset: asset.symbol,
             price: asset.priceUsd,
+            changePercent24Hr: asset.changePercent24Hr,
             onClick: () => DetalizationRoute(coin: asset.name).push(context),
           ),
         );
