@@ -1,8 +1,9 @@
-import 'dart:math';
 
 import 'package:common_logger/logger.dart';
+import 'package:domain_repository/entity/crypto_asset_entity.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:presentation_core_styling/color/custom_color_theme.dart';
 import 'package:presentation_core_styling/typography/custom_text_theme.dart';
@@ -16,8 +17,13 @@ import 'package:presentation_core_ui/widget/item/asset_item.dart';
 import 'package:presentation_core_ui/widget/state/empty_state.dart';
 import 'package:presentation_core_ui/widget/state/error_state.dart';
 import 'package:presentation_core_ui/widget/state/loading_state.dart';
+import 'package:presentation_feature_detalization/core/navigation/detalization_navigation.dart';
 import 'package:presentation_feature_user_profile/core/navigation/user_profile_navigation.dart';
-import 'package:presentation_feature_user_profile/user_profile_view.dart';
+
+import '../dialog/add_dialog.dart';
+import 'bloc/portfolio_bloc.dart';
+import 'bloc/portfolio_event.dart';
+import 'bloc/portfolio_state.dart';
 
 class PortfolioView extends StatefulWidget {
   const PortfolioView({super.key});
@@ -38,76 +44,126 @@ class _PortfolioViewState extends State<PortfolioView> with Logger {
     _scrollController.addListener(() {
       headerDividerController.setVisibility(_scrollController.offset > 0.0);
     });
+
+    context.read<PortfolioBloc>().add(PortfolioLoadEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeScaffold(
-        appBar: PortfolioHeader(
-            welcome: 'Welcome',
-            username: 'User',
-            onProfilePressed: () {
-              UserProfileRoute().push(context);
-            },
-            headerDividerController: headerDividerController),
-        body: _buildContent(context));
+    return _buildView(context);
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildView(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
-    return LoadingState();
-
-    List<String> dynamicItems =
-        List.generate(100, (index) => "Dynamic Item $index");
-
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 0),
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: 2 + dynamicItems.length, // 2 static + N dynamic
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return AccountCard(
-                  balance: "123", address: "address", onClick: () {});
-            } else if (index == 1) {
-              return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(context.tr("portfolioYourAssets"),
-                            style: textTheme.subtitleHighlight01
-                                .copyWith(color: colorScheme.neutralN900)),
-                        Spacer(),
-                        SortButton(
-                            sortByProperty: 'price',
-                            isAscending: true,
-                            onClick: () {
-                              // Handle sort selection
-                            })
-                      ]));
-            } else {
-              final dynamicItem = dynamicItems[index - 2]; // offset by 2
-              // return DynamicItemWidget(item: dynamicItem);
-              return Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                  child: _buildSlidebleItem(context));
-            }
-          },
-        ));
+    return BlocBuilder<PortfolioBloc, PortfolioState>(
+      bloc: context.read<PortfolioBloc>(),
+      builder: (context, state) {
+        switch (state) {
+          case PortfolioInitialState():
+            return SafeScaffold(
+                appBar: PortfolioHeader(
+                    welcome: context.tr("portfolioWelcome"),
+                    username: '',
+                    onProfilePressed: () {
+                      UserProfileRoute().push(context);
+                    },
+                    headerDividerController: headerDividerController),
+                body: LoadingState());
+          case PortfolioLoadingState():
+            return SafeScaffold(
+                appBar: PortfolioHeader(
+                    welcome: context.tr("portfolioWelcome"),
+                    username: '',
+                    onProfilePressed: () {
+                      UserProfileRoute().push(context);
+                    },
+                    headerDividerController: headerDividerController),
+                body: LoadingState());
+          case PortfolioErrorState():
+            return ErrorState(onClick: null);
+          case PortfolioLoadedState():
+            return _buildContent(context, state);
+          default:
+            return SafeScaffold(
+                appBar: PortfolioHeader(
+                    welcome: context.tr("portfolioWelcome"),
+                    username: '',
+                    onProfilePressed: () {
+                      UserProfileRoute().push(context);
+                    },
+                    headerDividerController: headerDividerController),
+                body: EmptyState());
+        }
+      },
+    );
   }
 
-  Widget _buildSlidebleItem(BuildContext context) {
+  Widget _buildContent(BuildContext context, PortfolioLoadedState data) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+
+    return SafeScaffold(
+        appBar: PortfolioHeader(
+            welcome: context.tr("portfolioWelcome"),
+            username: data.username,
+            onProfilePressed: () {
+              UserProfileRoute().push(context);
+            },
+            headerDividerController: headerDividerController),
+        body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0),
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: data.data.length + 2, // 2 static + N dynamic
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: AccountCard(
+                          balance: data.sum,
+                          address: "address",
+                          onClick: () {}));
+                } else if (index == 1) {
+                  return Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(context.tr("portfolioYourAssets"),
+                                style: textTheme.subtitleHighlight01
+                                    .copyWith(color: colorScheme.neutralN900)),
+                            Spacer(),
+                            SortButton(
+                                sortByProperty: 'price',
+                                isAscending: true,
+                                onClick: () {
+                                  // Handle sort selection
+                                })
+                          ]));
+                } else {
+                  final dynamicItem = data.data[index - 2]; // offset by 2
+                  // return DynamicItemWidget(item: dynamicItem);
+                  return Padding(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: _buildSlidebleItem(context, dynamicItem));
+                }
+              },
+            )));
+  }
+
+  Widget _buildSlidebleItem(BuildContext context, CryptoAssetEntity asset) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textTheme = theme.textTheme;
 
     return Slidable(
         // Specify a key if the Slidable is dismissible.
-        key: const ValueKey(0),
+        key: ValueKey(asset.symbol),
 
         // The start action pane is the one at the left or the top side.
         startActionPane: ActionPane(
@@ -128,23 +184,41 @@ class _PortfolioViewState extends State<PortfolioView> with Logger {
             Padding(
                 padding: EdgeInsets.only(left: 4),
                 child: ActionItem(
-                    name: "name",
+                    name: context.tr("portfolioEdit"),
                     icon: "assets/icon/icon-edit-24.svg",
                     foregroundColor: colorScheme.neutralN900,
-                    onClick: () {})),
+                    onClick: () {
+                      showAddDialog(context, asset, (CryptoAssetEntity asset) {
+                        context
+                            .read<PortfolioBloc>()
+                            .add(PortfolioEditAssetEvent(asset));
+                      });
+                    })),
             Padding(
                 padding: EdgeInsets.only(left: 4),
                 child: ActionItem(
-                    name: "name",
+                    name: context.tr("portfolioDelete"),
                     icon: "assets/icon/icon-delete-24.svg",
                     foregroundColor: colorScheme.errorN900,
-                    onClick: () {})),
+                    onClick: () {
+                      // Handle delete action
+                      context
+                          .read<PortfolioBloc>()
+                          .add(PortfolioDeleteAssetEvent(asset.symbol));
+                    })),
           ],
         ),
 
         // The child of the Slidable is what the user sees when the
         // component is not dragged.
-        child: AssetItem(
-            name: "name", asset: "asset", price: 1.1, onClick: () {}));
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: AssetItem(
+              name: asset.name,
+              asset: asset.symbol,
+              price: (asset.priceUsd * (asset.amount ?? 1.0)),
+              changePercent24Hr: asset.changePercent24Hr,
+              onClick: () => DetalizationRoute(coin: asset.name).push(context),
+            )));
   }
 }
