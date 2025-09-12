@@ -1,6 +1,5 @@
 name: presentation_feature_splash
 version: 0.0.1
-#  TODO: wtf
 publish_to: "none"
 
 environment:
@@ -21,6 +20,8 @@ dependencies:
     path: ../domain_repository
   presentation_feature_main:
     path: ../presentation_feature_main
+  presentation_core_platform:
+    path: ../presentation_core_platform
 
   go_router: ^15.0.0
   flutter_bloc: ^9.0.0
