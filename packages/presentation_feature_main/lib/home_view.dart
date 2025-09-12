@@ -4,7 +4,6 @@ import "package:flutter_svg/flutter_svg.dart";
 import "package:go_router/go_router.dart";
 import "package:presentation_core_styling/color/custom_color_theme.dart";
 import "package:presentation_core_styling/typography/custom_text_theme.dart";
-import "package:presentation_feature_welcome/welcome_ask_personal_data_dialog.dart";
 
 import "core/navigation/home_navigation.dart";
 
@@ -18,7 +17,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool _showAskPersonalDataDialog = true;
+  final bool _showAskPersonalDataDialog = true;
 
   @override
   void initState() {
