@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:presentation_core_platform/service/biometric_service.dart';
 import 'package:presentation_core_ui/widget/loader/splash_loading_widget.dart';
 import 'package:presentation_feature_main/core/navigation/home_navigation.dart';
 import 'package:presentation_feature_welcome/core/navigation/welcome_navigation.dart';
@@ -13,14 +14,14 @@ class SplashView extends StatefulWidget {
   State<SplashView> createState() => _SplashViewState();
 }
 
-// TODO: wtf
 class _SplashViewState extends State<SplashView> {
   late final SplashCubit _cubit;
 
   @override
   void initState() {
     super.initState();
-    _cubit = SplashCubit(context.read());
+    _cubit = SplashCubit(
+        cryptoRepository: context.read(), biometricService: BiometricService());
     _cubit.initializeApp();
   }
 
