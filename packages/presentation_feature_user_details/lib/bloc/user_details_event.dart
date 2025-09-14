@@ -22,7 +22,6 @@ class UserDetailsSaveEvent extends UserDetailsEvent {
     return firstName.isNotEmpty &&
         secondName.isNotEmpty &&
         email.isNotEmpty &&
-        operator.isNotEmpty &&
         phone.isNotEmpty &&
         dateOfBirth > 0;
   }

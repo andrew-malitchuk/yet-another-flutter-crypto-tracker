@@ -1,3 +1,4 @@
+import 'package:domain_repository/entity/user_profile_entity.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class UserDetailsState extends Equatable {}
@@ -27,7 +28,9 @@ class UserDetailsValidationErrorState extends UserDetailsState {
 }
 
 class UserDetailsLoadedState extends UserDetailsState {
-  UserDetailsLoadedState();
+  UserProfileEntity? userProfile;
+
+  UserDetailsLoadedState([this.userProfile]);
 
   @override
   List<Object?> get props => [];

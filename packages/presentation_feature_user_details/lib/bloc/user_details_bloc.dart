@@ -14,15 +14,18 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
       : super(UserDetailsInitialState()) {
     on<UserDetailsLoadEvent>((event, emit) async {
       emit(UserDetailsLoadingState());
-      // TODO remove this delay, it's just for demo purposes
-      await Future.delayed(Duration(seconds: 2));
-      emit(UserDetailsLoadedState());
+
+      final result = await cryptoRepository.loadUserProfile();
+
+      result.fold((onSuccess) {
+        emit(UserDetailsLoadedState(onSuccess));
+      }, (onFailure) {
+        emit(UserDetailsLoadedState(null));
+      });
     });
     on<UserDetailsSaveEvent>((event, emit) async {
       emit(UserDetailsLoadingState());
       // TODO remove this delay, it's just for demo purposes
-      // await Future.delayed(Duration(seconds: 10));
-
       switch (event.isValid()) {
         case true:
           _saveUserProfile(event);
@@ -35,23 +38,19 @@ class UserDetailsBloc extends Bloc<UserDetailsEvent, UserDetailsState> {
   }
 
   void _saveUserProfile(UserDetailsSaveEvent event) async {
+    final currentState = state is UserDetailsLoadedState
+        ? state as UserDetailsLoadedState
+        : UserDetailsLoadedState(null);
+
     await cryptoRepository
-        .saveUserProfile(
-        // UserProfileEntity(
-        //     firstName: event.firstName,
-        //     secondName: event.secondName,
-        //     email: event.email,
-        //     phone: event.operator + event.phone,
-        //     dateOfBirth: event.dateOfBirth
-        // ),
-        UserProfileEntity(
-            firstName:"",
-            secondName: "",
-            email: "",
-            phone: "",
-            dateOfBirth: -1
-        ),
-    )
+        .saveUserProfile(UserProfileEntity(
+      firstName: event.firstName,
+      secondName: event.secondName,
+      email: event.email,
+      phone: event.operator + event.phone,
+      dateOfBirth: event.dateOfBirth,
+      avatar: currentState.userProfile?.avatar,
+    ))
         .then((it) {
       it.fold((onSuccess) {
         emit(UserDetailsDoneState());
