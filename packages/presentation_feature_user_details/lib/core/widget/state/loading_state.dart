@@ -7,8 +7,6 @@ import 'package:presentation_core_ui/widget/field/datetime_field.dart';
 import 'package:presentation_core_ui/widget/field/operator/operator_field.dart';
 import 'package:presentation_core_ui/widget/field/operator/operator_value.dart';
 import 'package:presentation_core_ui/widget/field/simple_field.dart';
-import 'package:presentation_core_ui/widget/item/action_item.dart';
-import 'package:presentation_core_ui/widget/item/asset_item.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LoadingState extends StatelessWidget {
