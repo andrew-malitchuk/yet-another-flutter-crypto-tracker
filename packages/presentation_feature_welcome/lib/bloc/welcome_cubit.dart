@@ -9,7 +9,6 @@ class WelcomeState {
 
   const WelcomeState({required this.status});
 
-  // TODO wtf
   factory WelcomeState.initial() => WelcomeState(status: WelcomeStatus.initial);
 }
 
@@ -22,7 +21,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
   Future<void> unauthorize() async {
 
     await cryptoRepository.saveUserProfile(
-      UserProfileEntity(firstName: "", secondName: "", email: "", phone: "", dateOfBirth: -1)
+      UserProfileEntity(firstName: "", secondName: "", email: "", phone: "", dateOfBirth: -1, avatar: null)
     ).then((it){
       it.fold((onSuccess){
         emit(WelcomeState(status: WelcomeStatus.goToMarket));
