@@ -19,3 +19,12 @@ Encountering issues while using YAFCT? Check out the troubleshooting section for
 and solutions. If you still need assistance, feel free to reach out to the YAFCT community
 for support.
 
+## Contributing
+
+I welcome contributions from the community to help improve YAFCT. Whether you want to report a
+bug,
+suggest a new feature, or submit a pull request, follow the contribution guidelines outlined in the
+project's repository. Together, we can make YAFCT even better.
+
+
+
