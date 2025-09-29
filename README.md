@@ -13,6 +13,10 @@ changes.
 - Displays a list of cryptocurrencies with relevant information.
 - Pull-to-refresh functionality to update the data.
 
+
+| ![img_1.tiff](docs/img/img_1.png) | ![img_2.tiff](docs/img/img_2.png) |
+|--------------------------------|---------------------------------|
+
 ## Troubleshooting
 
 Encountering issues while using YAFCT? Check out the troubleshooting section for common problems
